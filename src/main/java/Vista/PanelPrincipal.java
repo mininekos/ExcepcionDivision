@@ -4,6 +4,14 @@
  */
 package Vista;
 
+import Excepcion.ExcepcionCaracteres;
+import Excepcion.ExcepcionDenominador;
+import Excepcion.ExcepcionDenominadorCero;
+import Excepcion.ExcepcionNumerador;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Dam
@@ -102,14 +110,44 @@ public class PanelPrincipal extends javax.swing.JPanel {
         Double denominador,numerador;
        
         try {
+            comprobarParse();
             denominador= Double.parseDouble(txtDenominador.getText());
             numerador= Double.parseDouble(txtNumerador.getText());
+            comprobarNumerador(numerador);
+            comprobarDenominador(denominador);
+            txtResultado.setText(""+(numerador/denominador));
             
-        } catch (Exception e) {
-            
+        } catch (ExcepcionDenominadorCero ex) {
+            JOptionPane.showMessageDialog(btnContinuar, ex.getMessage());
+        } catch (ExcepcionNumerador ex) {
+            JOptionPane.showMessageDialog(btnContinuar, ex.getMessage());
+        } catch (ExcepcionDenominador ex) {
+            JOptionPane.showMessageDialog(btnContinuar, ex.getMessage());
+        } catch (ExcepcionCaracteres ex) {
+            JOptionPane.showMessageDialog(btnContinuar, ex.getMessage());
         }
     }//GEN-LAST:event_btnContinuarActionPerformed
 
+   private void comprobarNumerador(Double numerador) throws ExcepcionNumerador{
+       if(numerador>100)
+           throw new ExcepcionNumerador();      
+   }
+   
+   private void comprobarDenominador(Double denominador) throws ExcepcionDenominadorCero,ExcepcionDenominador{
+       if(denominador<-5)
+           throw new ExcepcionDenominador();
+       if(denominador ==0)
+           throw new ExcepcionDenominadorCero();   
+   }
+   
+   private void comprobarParse()throws ExcepcionCaracteres{
+       try {
+           if(Double.parseDouble(txtDenominador.getText())<100 ||Double.parseDouble(txtNumerador.getText())>-5){     
+           }
+       } catch (Exception e) {
+           throw  new ExcepcionCaracteres();
+       }
+   }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnContinuar;

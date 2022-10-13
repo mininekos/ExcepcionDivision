@@ -8,9 +8,11 @@ package Excepcion;
  *
  * @author Dam
  */
-public class ExcepcionNumerica extends Exception{
-    
-    public ExcepcionNumerica(String cadena){
-        super(cadena);
+public class ExcepcionNumerador extends Exception{
+
+    public ExcepcionNumerador() {
+        super("Numerador mayor que 100");
     }
+    
+    
 }
